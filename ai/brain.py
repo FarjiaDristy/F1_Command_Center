@@ -6,10 +6,11 @@ Requires: ANTHROPIC_API_KEY in your environment (see README.md).
 
 from __future__ import annotations
 import os
-import anthropic
+#import anthropic
+from groq import Groq
 
-# Initialise the client once — it reads ANTHROPIC_API_KEY automatically
-client = anthropic.Anthropic()
+
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 SYSTEM_PROMPT = """You are a senior F1 race engineer with deep expertise across three domains:
 1. Cybersecurity — you monitor for threats, CVEs, and anomalous telemetry patterns.
@@ -60,7 +61,7 @@ Flag the most critical cross-discipline issue first. If everything is clean, con
 """
 
     response = client.messages.create(
-        model="claude-opus-4-5",
+        model="llama3-8b-8192",
         max_tokens=150,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": prompt}],
